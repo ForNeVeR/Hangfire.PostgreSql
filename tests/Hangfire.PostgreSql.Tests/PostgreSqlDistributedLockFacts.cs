@@ -75,17 +75,18 @@ namespace Hangfire.PostgreSql.Tests
             {
                 SchemaName = GetSchemaName(),
                 UseNativeDatabaseTransactions = true,
-                DistributedLockTimeout = TimeSpan.FromSeconds(5)
+                DistributedLockTimeout = TimeSpan.FromSeconds(10)
             };
-
+            
             UseConnection(connection =>
             {
                 // Arrange
+                var timeout = TimeSpan.FromSeconds(15);
                 var resourceName = "hello";
                 connection.Execute($@"INSERT INTO ""{GetSchemaName()}"".""lock"" VALUES ('{resourceName}', 0, '{DateTime.UtcNow}')");
 
                 // Act
-                var distributedLock = new PostgreSqlDistributedLock(resourceName, _timeout, connection, options);
+                var distributedLock = new PostgreSqlDistributedLock(resourceName, timeout, connection, options);
 
                 // Assert
                 Assert.True(distributedLock != null);

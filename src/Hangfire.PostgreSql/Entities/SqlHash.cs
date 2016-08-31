@@ -24,7 +24,7 @@ using Hangfire.PostgreSql.Annotations;
 
 namespace Hangfire.PostgreSql.Entities
 {
-    [UsedImplicitly]
+    [UsedImplicitly(ImplicitUseTargetFlags.WithMembers)]
     internal class SqlHash
     {
         public int Id { get; set; }
